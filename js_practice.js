@@ -11,9 +11,27 @@ async function randompokemon() {
         const front = data.sprites.front_default;
         const back = data.sprites.back_default;
         const artwork = data.sprites.other["official-artwork"].front_default;
+        const home = data.sprites.other.home.front_default;
+
 
         const speciesRes = await fetch(data.species.url);
         const speciesData = await speciesRes.json();
+
+        const loadImage = add => new Promise((resolve, reject) => {
+            if (!add) return resolve(null);
+            const img = new Image();
+            img.onload = () => resolve(add);
+            img.onerror = () => resolve(null);
+            img.src = add;
+        });
+
+          await Promise.all([
+            loadImage(artwork),
+            loadImage(front),
+            loadImage(back),
+            loadImage(home)
+        ]);
+
 
 
 
@@ -37,7 +55,7 @@ async function randompokemon() {
 
         if (imgUrl) {
                 // 자바스크립트를 사용해 동적으로 버튼 배경 이미지 설정
-            button.style.backgroundImage = `url('${data.sprites.other.home.front_default}')`;
+            button.style.backgroundImage = `url('${home}')`;
         }
         else {
             button.style.backgroundImage = "";
