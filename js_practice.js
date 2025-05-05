@@ -10,24 +10,25 @@ async function randompokemon() {
 
         const front = data.sprites.front_default;
         const back = data.sprites.back_default;
+        const artwork = data.sprites.other["official-artwork"].front_default;
 
         const speciesRes = await fetch(data.species.url);
         const speciesData = await speciesRes.json();
 
+
+
         let html = `<h1>${speciesData.names.find(n=>n.language.name === 'ko').name}</h1>`;
 
-        html += `<img src="${data.sprites.other["official-artwork"].front_default}" alt="${data.name}">
-                         <img src="${front}" alt="앞모습">`;
+        html += `<img src="${artwork}" alt="${data.name}">
+                    <img src="${front}" alt="앞모습">`;
 
         if (back) {
             html += `<img src="${back}" alt="뒷모습">`;
-        } else {
-            html += `<p>뒷모습 이미지가 없습니다.</p>`;
         }
 
         html += `<p>번호: ${data.id}</p>
-                     <p>키: ${data.height}</p>
-                     <p>몸무게: ${data.weight}</p>`;
+                 <p>키: ${(data.height/10) + "M"}</p>
+                 <p>몸무게: ${(data.weight/10)+"KG"}</p>`;
 
         document.getElementById("pokemon-info").innerHTML = html;
 
@@ -37,9 +38,8 @@ async function randompokemon() {
         if (imgUrl) {
                 // 자바스크립트를 사용해 동적으로 버튼 배경 이미지 설정
             button.style.backgroundImage = `url('${data.sprites.other.home.front_default}')`;
-
-
-        } else {
+        }
+        else {
             button.style.backgroundImage = "";
         }
 
